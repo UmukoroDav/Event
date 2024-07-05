@@ -1,0 +1,43 @@
+{% load static %}
+<header id="header" class="header d-flex align-items-center fixed-top">
+    <div
+      class="container-fluid container-xl position-relative d-flex align-items-center"
+    style="justify-content: space-between;">
+      <a href="{% url 'index' %}" class="logo d-flex align-items-center me-auto">
+        <h1 class="sitename"><span class="logo-s">Fope</span>Event</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          {% if request.user.is_authenticated %}
+          <li>
+            <a href="#hero" class="active">Home<br /></a>
+          </li>
+          <li><a href="#speakers">Speakers</a></li>
+          <li><a href="#schedule">Schedule</a></li>
+          <li><a href="#venue">Venue</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <div class="drop">
+            <img src="{{request.user.profile.url}}" alt="..." class="avatar" >
+            <div class="drop-content"> 
+              <a href="{% url 'edituser' %}">Edit Profile</a>
+              <a href="{% url 'logout' %}">Logout</a>
+            </div>
+          </div>
+          {% else %}
+          <div><a href="{% url 'applogin' %}"><img src="{% static 'image/avatar.svg' %}" alt="..." style="width: 20%;"></a></div>
+          {% endif %}
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list" onclick="myFunction()"></i>
+      </nav>
+
+    </div>
+  </header>
+
+
+
+
+
+
+

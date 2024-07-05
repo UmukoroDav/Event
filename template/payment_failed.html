@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Payment-Failed | Fope{% endblock %}
+{% block content %}
+   <div style="text-align: center; padding: 110px 100px;">
+    <h1>Payment Failed</h1>
+    <p>Unfortunately, your payment could not be processed.</p>
+    <p>Reason: {{ error }}</p>
+    <a href="{% url 'index' %}"><button type="submit" class="btn mx-auto" style="background-color: #f82249; color: white;">Back Home</button></a>
+   </div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}EditProfile | Fope{% endblock %}
+{% block content %}
+<form action="" method="post" enctype="multipart/form-data">
+    <div class="container" style="margin-top: 150px;">
+      <h1>Edit Profile</h1>
+      <!-- <p>Please fill in this form to login to your account.</p> -->
+      <hr>
+  
+      {% csrf_token %}
+      {% if messages %}
+      {% for message in messages %}
+      {% if message.tags == 'error' %}
+          <p id="" class="alert text-center">{{message}}</p>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+      
+      
+      {% if messages %}
+      {% for message in messages %}
+      {% if message.tags == 'success' %}
+          <p id="" class="success text-center">{{message}}</p>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+     {{edituser.as_p}}
+
+      <hr>
+      <button type="submit" class="registerbtn">Submit</button>
+    </div>
+  </form>
+{% endblock %}
