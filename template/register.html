@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Register | Fope{% endblock %}
+{% block content %}
+<form action="" method="post">
+    <div class="container" style="margin-top: 150px;">
+      <h1>Register</h1>
+      <p>Please fill in this form to create an account.</p>
+      <hr>
+  
+      {% csrf_token %}
+      {% if messages %}
+      {% for message in messages %}
+      {% if message.tags == 'error' %}
+          <p id="message-time" class="alert text-center">{{message}}</p>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+      
+      
+      {% if messages %}
+      {% for message in messages %}
+      {% if message.tags == 'success' %}
+          <p id="message-time" class="success text-center">{{message}}</p>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+      <label for="name"><b>Name</b></label>
+      <input type="text" placeholder="Enter Name" name="name" id="name" required>
+
+      <label for="username"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="username" id="username" required>
+
+      <label for="email"><b>Email</b></label>
+      <input type="email" placeholder="Enter Email" name="email" id="email" required>
+  
+      <label for="password"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="password" id="password" required>
+
+      <hr>
+  
+      <button type="submit" class="registerbtn">Login</button>
+    </div>
+  
+    <div class="container signin">
+      <p>Already have an account? <a href="{% url 'applogin' %}">Sign In</a>.</p>
+    </div>
+  </form>
+{% endblock %}

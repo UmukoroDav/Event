@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Tickets | Fope{% endblock %}
+{% block content %}
+<section id="buy-tickets" class="buy-tickets section" style="padding-top: 130px;">
+    <!-- Section Title -->
+    <div class="container section-title">
+      <h2>Buy Tickets</h2>
+      <p>
+        Secure your tickets now and join us for an unforgettable event experience. Explore our lineup, discover exclusive sessions, and reserve your spot today.
+      </p>
+    </div>
+    
+    <!-- End Section Title -->
+
+    <div class="container">
+        {% for ticket in tickets %}
+    <div
+      class="row gy-4 pricing-item mt-4"
+      
+    >
+      <div
+        class="col-lg-3 d-flex align-items-center justify-content-center"
+      >
+        <h3>{{ticket.name}}<br /></h3>
+      </div>
+      <div
+        class="col-lg-3 d-flex align-items-center justify-content-center"
+      >
+        <h4><sup>NGN</sup>{{ticket.price}}</h4>
+      </div>
+      <div
+        class="col-lg-3 d-flex align-items-center justify-content-center"
+      >
+        <ul>
+            {% for feature in ticket.features %}
+            <li>
+                <i class="bi bi-check"></i>
+                <span>{{ feature }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+      </div>
+      <div
+        class="col-lg-3 d-flex align-items-center justify-content-center"
+      >
+        <div class="text-center">
+          <a href="{% url 'ticket_purchase' ticket.id %}" class="buy-btn">Buy Now</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    
+      <!-- End Pricing Item -->
+    </div>
+  </section>
+
+{% endblock %}

@@ -1,0 +1,589 @@
+{% extends 'base.html' %}
+{% block title %}Home | Fope{% endblock %}
+{% load static %}
+{% block content %}
+
+
+      <!-- Hero Section -->
+      <section id="hero" class="hero section">
+        <img src="{% static 'assets/img/main.jpg' %}" alt="" data-aos="fade-in" class="" />
+
+        <div
+          class="container d-flex flex-column align-items-center text-center mt-auto"
+        >
+          <h2 data-aos="fade-up" data-aos-delay="100" class="">
+            ConnectX:<br /><span>Bridging Ideas</span> and Innovation
+          </h2>
+          <p data-aos="fade-up" data-aos-delay="200">
+            Empowerment, Collaboration, and Inspiration
+          </p>
+          <div data-aos="fade-up" data-aos-delay="300" class="">
+            <a
+              href="https://youtu.be/hCQvPX0DLFM?si=6A6RUVxXejkTbiLH"
+              class="glightbox play-btn"
+            ></a>
+          </div>
+        </div>
+
+        <div class="about-info mt-auto position-relative">
+          <div class="container position-relative" data-aos="fade-up">
+            <div class="row">
+              <div class="col-lg-6">
+                <h2>About The Event</h2>
+                <p>
+                  Welcome to ConnectX: Bridging Ideas and Innovation. Join
+                  global visionaries and changemakers as we catalyze
+                  collaboration, spark creativity, and drive impactful change.
+                  Explore cutting-edge ideas, share transformative insights, and
+                  forge connections that redefine the future of innovation.
+                  Don't miss your chance to bridge the gap between ideas and
+                  action at ConnectX.
+                </p>
+              </div>
+              <div class="col-lg-3">
+                <h3>Where</h3>
+                <p>Fope's Conference Center, Nigeria</p>
+              </div>
+              <div class="col-lg-3">
+                <h3>When</h3>
+                <p>Tuesday to friday<br />2-10 July</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- /Hero Section -->
+
+      <!-- Speakers Section -->
+      <section id="speakers" class="speakers section">
+        <!-- Section Title -->
+        <div class="container section-title" >
+          <h2>Event Speakers<br /></h2>
+        </div>
+        <!-- End Section Title -->
+
+        <div class="container">
+          <div class="row gy-4">
+            {% for i in speaker %}
+            <div class="col-xl-3 col-lg-4 col-md-6">
+              <div class="member">
+                <img
+                  src="{{i.Profile.url}}"
+                  class="img-fluid"
+                  alt=""
+                />
+                <div class="member-info">
+                  <div class="member-info-content">
+                    <h4>{{i.Name}}</h4>
+                    <span>{{i.Position}}</span>
+                  </div>
+                  <div class="social">
+                    <a href=""><i class="bi bi-twitter-x"></i></a>
+                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <a href=""><i class="bi bi-linkedin"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}  
+            <!-- End Team Member -->
+          </div>
+        </div>
+      </section>
+      <!-- /Speakers Section -->
+
+      <!-- Schedule Section -->
+      <section id="schedule" class="schedule section">
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Event Schedule<br /></h2>
+            <p>
+                Discover the excitement ahead with our comprehensive event schedule!
+            </p>
+        </div>
+        <!-- End Section Title -->
+
+        <div class="container">
+            <ul class="nav nav-tabs" role="tablist" data-aos="fade-up" data-aos-delay="30">
+                {% for day in days %}
+                <li class="nav-item">
+                    <a class="nav-link {% if forloop.first %}active{% endif %}" href="#day-{{ day.id }}" role="tab" data-bs-toggle="tab">{{ day.name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <div class="tab-content row justify-content-center" data-aos="fade-up" data-aos-delay="40">
+                <h3 class="sub-heading">
+                    <p>
+                        Discover the excitement ahead with our comprehensive event
+                        schedule! From insightful keynote sessions to interactive
+                        workshops and networking opportunities.
+                    </p>
+                </h3>
+
+                {% for day in days %}
+                <div role="tabpanel" class="col-lg-9 tab-pane fade {% if forloop.first %}show active{% endif %}" id="day-{{ day.id }}">
+                    {% for event in day.events.all %}
+                    <div class="row schedule-item">
+                        <div class="col-md-2">
+                            <time>{{ event.time }}</time>
+                        </div>
+                        <div class="col-md-10">
+                            {% if event.speaker_name and event.speaker_name.Profile %}
+                            <div class="speaker">
+                                <img src="{{ event.speaker_name.Profile.url }}" alt="{{ event.speaker_name.Name }}" />
+                            </div>
+                            {% endif %}
+                            <h4>{{ event.title }} <span></span></h4>
+                            <p>{{ event.description }}</p>
+                            <p>Venue : {{event.venue.name}}</p>
+                            <p>Speaker : {{ event.speaker_name.Name }}</p>
+                            <p>Date : {{event.date}}</p>
+                            <div class="d-flex justify-content-end">
+                            <a href="{% url 'ticket' %}" class="btn" style="background-color: #f82249; color: white;">Buy Ticket</a>
+                            </div>
+                          </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+      <!-- /Schedule Section -->
+
+      <!-- Venue Section -->
+      <section id="venue" class="venue section">
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Event Venue<br /></h2>
+            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        </div>
+    
+        {% for venue in venues %}
+        <div class="container-fluid">
+            <div class="row g-0">
+                <div class="col-lg-6 venue-map">
+                    <iframe
+                        src="{{ venue.map_embed_url }}"
+                        width="600"
+                        height="450"
+                        style="border:0"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                    ></iframe>
+                </div>
+    
+                <div class="col-lg-6 venue-info">
+                    <div class="row justify-content-center">
+                        <div class="col-11 col-lg-8 position-relative">
+                            <h3>{{ venue.name }}</h3>
+                            <p>{{ venue.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="container-fluid venue-gallery-container">
+            <div class="row g-0">
+                {% for image in venue.gallery.all %}
+                <div class="col-lg-3 col-md-4">
+                    <div class="venue-gallery">
+                        <a href="{{ image.image.url }}" class="glightbox" data-gall="venue-gallery">
+                            <img src="{{ image.image.url }}" alt="" class="img-fluid" />
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+
+    
+
+      
+      <!-- /Venue Section -->
+
+      <!-- Gallery Section -->
+      <section id="gallery" class="gallery section">
+        <!-- Section Title -->
+        <div class="container section-title">
+          <h2>Gallery</h2>
+          <p>
+            Necessitatibus eius consequatur ex aliquid fuga eum quidem sint
+            consectetur velit
+          </p>
+        </div>
+        <!-- End Section Title -->
+
+        <div class="container" >
+          <div class="swiper init-swiper">
+            <script type="application/json" class="swiper-config">
+              {
+                "loop": true,
+                "speed": 600,
+                "autoplay": {
+                  "delay": 5000
+                },
+                "slidesPerView": "auto",
+                "centeredSlides": true,
+                "pagination": {
+                  "el": ".swiper-pagination",
+                  "type": "bullets",
+                  "clickable": true
+                },
+                "breakpoints": {
+                  "320": {
+                    "slidesPerView": 1,
+                    "spaceBetween": 0
+                  },
+                  "768": {
+                    "slidesPerView": 3,
+                    "spaceBetween": 20
+                  },
+                  "1200": {
+                    "slidesPerView": 5,
+                    "spaceBetween": 20
+                  }
+                }
+              }
+            </script>
+            <div class="swiper-wrapper align-items-center">
+              {% for i in gallery %}
+              <div class="swiper-slide">
+                <a
+                  class="glightbox"
+                  data-gallery="images-gallery"
+                  href="assets/img/event-gallery/event-gallery-1.jpg"
+                  ><img
+                    src="{{i.profile.url}}"
+                    class="img-fluid"
+                    alt=""
+                /></a>
+              </div>
+              {% endfor %}
+              <!-- <div class="swiper-slide">
+                <a
+                  class="glightbox"
+                  data-gallery="images-gallery"
+                  href="assets/img/event-gallery/event-gallery-2.jpg"
+                  ><img
+                    src="{% static 'assets/img/event-gallery/event-gallery-2.jpg' %}"
+                    class="img-fluid"
+                    alt=""
+                /></a>
+              </div>
+              <div class="swiper-slide">
+                <a
+                  class="glightbox"
+                  data-gallery="images-gallery"
+                  href="assets/img/event-gallery/event-gallery-3.jpg"
+                  ><img
+                    src="{% static 'assets/img/event-gallery/event-gallery-3.jpg' %}"
+                    class="img-fluid"
+                    alt=""
+                /></a>
+              </div>
+              <div class="swiper-slide">
+                <a
+                  class="glightbox"
+                  data-gallery="images-gallery"
+                  href="assets/img/event-gallery/event-gallery-4.jpg"
+                  ><img
+                    src="{% static 'assets/img/event-gallery/event-gallery-4.jpg' %}"
+                    class="img-fluid"
+                    alt=""
+                /></a>
+              </div>
+              <div class="swiper-slide">
+                <a
+                  class="glightbox"
+                  data-gallery="images-gallery"
+                  href="assets/img/event-gallery/event-gallery-5.jpg"
+                  ><img
+                    src="{% static 'assets/img/event-gallery/event-gallery-5.jpg' %}"
+                    class="img-fluid"
+                    alt=""
+                /></a>
+              </div>
+              <div class="swiper-slide">
+                <a
+                  class="glightbox"
+                  data-gallery="images-gallery"
+                  href="assets/img/event-gallery/event-gallery-6.jpg"
+                  ><img
+                    src="{% static 'assets/img/event-gallery/event-gallery-6.jpg' %}"
+                    class="img-fluid"
+                    alt=""
+                /></a>
+              </div>
+              <div class="swiper-slide">
+                <a
+                  class="glightbox"
+                  data-gallery="images-gallery"
+                  href="assets/img/event-gallery/event-gallery-7.jpg"
+                  ><img
+                    src="{% static 'assets/img/event-gallery/event-gallery-7.jpg' %}"
+                    class="img-fluid"
+                    alt=""
+                /></a>
+              </div>
+              <div class="swiper-slide">
+                <a
+                  class="glightbox"
+                  data-gallery="images-gallery"
+                  href="assets/img/event-gallery/event-gallery-8.jpg"
+                  ><img
+                    src="{% static 'assets/img/event-gallery/event-gallery-8.jpg' %}"
+                    class="img-fluid"
+                    alt=""
+                /></a>
+              </div> -->
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+      </section>
+      <!-- /Gallery Section -->
+
+      <!-- Faq Section -->
+      <section id="faq" class="faq section">
+        <!-- Section Title -->
+        <div class="container section-title">
+          <h2>Frequently Asked Questions</h2>
+          <p>
+            Find answers to common inquiries about our upcoming events. Whether you're curious about registration, venue details, or what to expect during our gatherings, you'll discover valuable information below.
+          </p>
+        </div>
+        
+        <!-- End Section Title -->
+
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-10" data-aos="" data-aos-delay="">
+              <div class="faq-container">
+                <div class="faq-item faq-active">
+                  <h3>How do I register for events on your platform?</h3>
+                  <div class="faq-content">
+                    <p>
+                      Registration for our events is simple and straightforward. You can register directly on our website by visiting the event schedule page and clicking on the registration link provided for each event. Follow the prompts to complete your registration and secure your spot!
+                    </p>
+                  </div>
+                  <i class="faq-toggle bi bi-chevron-right"></i>
+                </div>
+                <!-- End Faq item-->
+              
+                <div class="faq-item">
+                  <h3>What are the key benefits of attending your events?</h3>
+                  <div class="faq-content">
+                    <p>
+                      Our events offer invaluable networking opportunities with industry leaders, insightful keynote sessions, and hands-on workshops designed to enhance your professional skills. Whether you're looking to gain knowledge, connect with peers, or explore career opportunities, our events cater to diverse interests and ambitions.
+                    </p>
+                  </div>
+                  <i class="faq-toggle bi bi-chevron-right"></i>
+                </div>
+                <!-- End Faq item-->
+              
+                <div class="faq-item">
+                  <h3>
+                    How can I stay updated on changes or additions to the event schedule?
+                  </h3>
+                  <div class="faq-content">
+                    <p>
+                      Keeping track of our event schedule is easy. Visit our website regularly for the latest updates, including new events, changes in timings, and additions to the lineup of speakers and sessions. You can also subscribe to our newsletter or follow us on social media for real-time notifications.
+                    </p>
+                  </div>
+                  <i class="faq-toggle bi bi-chevron-right"></i>
+                </div>
+                <!-- End Faq item-->
+              
+                <div class="faq-item">
+                  <h3>
+                    What should I expect in terms of amenities and facilities at your events?
+                  </h3>
+                  <div class="faq-content">
+                    <p>
+                      Our events are hosted at top-notch venues equipped with modern facilities, ensuring a comfortable and productive experience for all attendees. From spacious conference halls to state-of-the-art audiovisual equipment, we strive to create an environment conducive to learning, networking, and collaboration.
+                    </p>
+                  </div>
+                  <i class="faq-toggle bi bi-chevron-right"></i>
+                </div>
+                <!-- End Faq item-->
+              
+                <div class="faq-item">
+                  <h3>
+                    How can I contribute as a speaker or sponsor to your upcoming events?
+                  </h3>
+                  <div class="faq-content">
+                    <p>
+                      We welcome speakers and sponsors who share our passion for knowledge sharing and professional development. If you're interested in contributing to our events as a speaker or sponsor, please reach out to our team through the contact information provided on our website. We look forward to collaborating with you!
+                    </p>
+                  </div>
+                  <i class="faq-toggle bi bi-chevron-right"></i>
+                </div>
+                <!-- End Faq item-->
+              </div>
+              
+                <!-- End Faq item-->
+              </div>
+            </div>
+            <!-- End Faq Column-->
+          </div>
+        </div>
+      </section>
+      <!-- /Faq Section -->
+
+      <!-- Buy Tickets Section -->
+
+      <!-- /Buy Tickets Section -->
+
+      <!-- Contact Section -->
+      <section id="contact" class="contact section">
+        <!-- Section Title -->
+        <div class="container section-title">
+          <h2>Contact Us</h2>
+          <p>
+            If you have any questions or inquiries regarding the event, feel free to reach out to us. We are here to assist you in any way we can.
+          </p>
+        </div>
+        
+        <!-- End Section Title -->
+
+        <div class="container" data-aos-delay="40">
+          <div class="row gy-4">
+            <div class="col-lg-6">
+              <div
+                class="info-item d-flex flex-column justify-content-center align-items-center"
+               
+                
+              >
+                <i class="bi bi-geo-alt"></i>
+                <h3>Address</h3>
+                <p>22 Ring Road,
+                  Ibadan, Oyo State,
+                  Nigeria
+                  </p>
+              </div>
+            </div>
+            <!-- End Info Item -->
+
+            <div class="col-lg-3 col-md-6">
+              <div
+                class="info-item d-flex flex-column justify-content-center align-items-center"
+               
+                
+              >
+                <i class="bi bi-telephone"></i>
+                <h3>Call Us</h3>
+                <p>+234 906 401 5179</p>
+              </div>
+            </div>
+            <!-- End Info Item -->
+
+            <div class="col-lg-3 col-md-6">
+              <div
+                class="info-item d-flex flex-column justify-content-center align-items-center"
+               
+                
+              >
+                <i class="bi bi-envelope"></i>
+                <h3>Email Us</h3>
+                <p>fope@gmail.com</p>
+              </div>
+            </div>
+            <!-- End Info Item -->
+          </div>
+
+          <div class="row gy-4 mt-1">
+            <div class="col-lg-6" >
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.115946047379!2d3.9028062752231367!3d7.452423111671627!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1039937656f5c3a1%3A0x8c1664861947b749!2sInternational%20conference%20center!5e0!3m2!1sen!2sng!4v1718899577922!5m2!1sen!2sng"
+                frameborder="0"
+                style="border: 0; width: 100%; height: 400px"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+            <!-- End Google Maps -->
+
+            <div class="col-lg-6">
+              <form
+                action="{% url 'index' %}"
+                method="post"
+                class="form"
+               
+                
+              >
+              {% csrf_token %}
+              {% if messages %}
+              {% for message in messages %}
+              {% if message.tags == 'error' %}
+                  <p id="message-time" class="alert text-center">{{message}}</p>
+              {% endif %}
+              {% endfor %}
+              {% endif %}
+              
+              
+              {% if messages %}
+              {% for message in messages %}
+              {% if message.tags == 'success' %}
+                  <p id="message-time" class="success text-center">{{message}}</p>
+              {% endif %}
+              {% endfor %}
+              {% endif %}
+                <div class="row gy-4">
+                  <div class="col-md-6">
+                    <input
+                      type="text"
+                      name="name"
+                      class="form-control"
+                      placeholder="Your Name"
+                      required=""
+                    />
+                  </div>
+
+                  <div class="col-md-6">
+                    <input
+                      type="email"
+                      class="form-control"
+                      name="email"
+                      placeholder="Your Email"
+                      required=""
+                    />
+                  </div>
+
+                  <div class="col-md-12">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="subject"
+                      placeholder="Subject"
+                      required=""
+                    />
+                  </div>
+
+                  <div class="col-md-12">
+                    <textarea
+                      class="form-control"
+                      name="message"
+                      rows="6"
+                      placeholder="Message"
+                      required=""
+                    ></textarea>
+                  </div>
+                    <button type="submit">Send Message</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <!-- End Contact Form -->
+          </div>
+        </div>
+      </section>
+      <!-- /Contact Section -->
+{% endblock %}
+

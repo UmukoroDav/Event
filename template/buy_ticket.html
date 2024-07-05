@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Buy-Ticket | Fope{% endblock %}
+{% block content %}
+<!-- tickets/templates/ticket_purchase.html -->
+<section id="ticket-purchase" class="ticket-purchase section" style="padding-top: 130px;">
+    <div class="container section-title">
+        <h2>Buy Ticket: {{ ticket.name }}</h2>
+        <p>Price: {{ ticket.price }}</p>
+    </div>
+
+    <div class="container">
+        <form action="{% url 'ticket_purchase'  ticket.id  %}" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <button type="submit" class="btn mx-auto" style="background-color: #f82249; color: white;">Purchase</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
